@@ -1,4 +1,4 @@
-FROM node:14.18.1
+FROM node:16-alpine
 WORKDIR /app
 RUN npm install -g pnpm
 COPY package.json ./

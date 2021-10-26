@@ -8,15 +8,14 @@ export class MenuController {
     constructor(private readonly menuService: MenuService) { }
 
     @Get(':ownerId/menus')
-    find(@Param('ownerId') ownerId: string): Promise<Menu[]> {
+    find(@Param('ownerId') ownerId: number): Promise<Menu[]> {
         const menu = this.menuService.find(ownerId);
         return menu;
     }
 
     @Post(':ownerId/menus')
-    Create(@Param('ownerId') ownerId:string, @Body() body:CreateMenuListDto): Promise<Menu[]> { 
-            body['ownerId'] = ownerId;
-            const menu = this.menuService.create(body);
-            return menu;
+    Create(@Param('ownerId') ownerId:number, @Body() body:CreateMenuListDto): Promise<Menu[]> { 
+        const menu = this.menuService.create(ownerId, body);
+        return menu;
    }
 }

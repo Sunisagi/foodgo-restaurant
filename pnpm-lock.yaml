@@ -5,6 +5,7 @@ specifiers:
   '@nestjs/common': ^7.5.1
   '@nestjs/config': ^1.0.2
   '@nestjs/core': ^7.5.1
+  '@nestjs/microservices': ^7.5.1
   '@nestjs/mongoose': ^9.0.0
   '@nestjs/platform-express': ^7.5.1
   '@nestjs/schematics': ^7.1.3
@@ -15,6 +16,8 @@ specifiers:
   '@types/supertest': ^2.0.10
   '@typescript-eslint/eslint-plugin': ^4.6.1
   '@typescript-eslint/parser': ^4.6.1
+  amqp-connection-manager: ^3.7.0
+  amqplib: ^0.8.0
   class-transformer: ^0.4.0
   class-validator: ^0.13.1
   eslint: ^7.12.1
@@ -36,9 +39,12 @@ specifiers:
 dependencies:
   '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
   '@nestjs/config': 1.0.2_8e31790053d1b59c37f4bbb7b09624be
-  '@nestjs/core': 7.6.18_9c33563c8577d8506c63ecc8818f31a3
+  '@nestjs/core': 7.6.18_d489a7c925462b21d625b850d6ed8450
+  '@nestjs/microservices': 7.6.18_fb977ccd11227607f69bc44efbe1878a
   '@nestjs/mongoose': 9.0.1_73576d928c14b4a205c9703eadf79334
   '@nestjs/platform-express': 7.6.18_2664420588e0901c7943acb4693cbaf4
+  amqp-connection-manager: 3.7.0_amqplib@0.8.0
+  amqplib: 0.8.0
   class-transformer: 0.4.0
   class-validator: 0.13.1
   mongoose: 6.0.11
@@ -49,7 +55,7 @@ dependencies:
 devDependencies:
   '@nestjs/cli': 7.6.0
   '@nestjs/schematics': 7.3.1_typescript@4.4.4
-  '@nestjs/testing': 7.6.18_9cd0f963ae6f35bf288217e4f1c45cb4
+  '@nestjs/testing': 7.6.18_f5a1174e3de4a07338e712ff09df4167
   '@types/express': 4.17.13
   '@types/jest': 26.0.24
   '@types/node': 14.17.27
@@ -784,7 +790,7 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@nestjs/core/7.6.18_9c33563c8577d8506c63ecc8818f31a3:
+  /@nestjs/core/7.6.18_d489a7c925462b21d625b850d6ed8450:
     resolution: {integrity: sha512-CGu20OjIxgFDY7RJT5t1TDGL8wSlTSlbZEkn8U5OlICZEB3WIpi98G7ajJpnRWmEgW8S4aDJmRKGjT+Ntj5U4A==}
     requiresBuild: true
     peerDependencies:
@@ -805,6 +811,7 @@ packages:
       fast-safe-stringify: 2.0.7
       iterare: 1.2.1
       '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
+      '@nestjs/microservices': 7.6.18_fb977ccd11227607f69bc44efbe1878a
       '@nestjs/platform-express': 7.6.18_2664420588e0901c7943acb4693cbaf4
       '@nuxtjs/opencollective': 0.3.2
       object-hash: 2.1.1
@@ -813,6 +820,53 @@ packages:
       rxjs: 7.4.0
       tslib: 2.2.0
       uuid: 8.3.2
+    dev: false
+
+  /@nestjs/microservices/7.6.18_fb977ccd11227607f69bc44efbe1878a:
+    resolution: {integrity: sha512-vSSl9hgHgBtTye57f2PZIg36MLcv5TRdqu3QEsS50WlUmxIjISCfAeCMLk+hWQNM8zjvlLwNbKUJW+NOZ2aovA==}
+    peerDependencies:
+      amqp-connection-manager: '*'
+      amqplib: '*'
+      cache-manager: '*'
+      grpc: '*'
+      kafkajs: '*'
+      mqtt: '*'
+      nats: '*'
+      '@nestjs/common': ^7.0.0
+      '@nestjs/core': ^7.0.0
+      '@nestjs/websockets': ^7.0.0
+      redis: '*'
+      reflect-metadata: ^0.1.12
+      rxjs: ^6.0.0
+    peerDependenciesMeta:
+      amqp-connection-manager:
+        optional: true
+      amqplib:
+        optional: true
+      cache-manager:
+        optional: true
+      grpc:
+        optional: true
+      kafkajs:
+        optional: true
+      mqtt:
+        optional: true
+      nats:
+        optional: true
+      '@nestjs/websockets':
+        optional: true
+      redis:
+        optional: true
+    dependencies:
+      amqp-connection-manager: 3.7.0_amqplib@0.8.0
+      amqplib: 0.8.0
+      iterare: 1.2.1
+      json-socket: 0.3.0
+      '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
+      '@nestjs/core': 7.6.18_d489a7c925462b21d625b850d6ed8450
+      reflect-metadata: 0.1.13
+      rxjs: 7.4.0
+      tslib: 2.2.0
     dev: false
 
   /@nestjs/mongoose/9.0.1_73576d928c14b4a205c9703eadf79334:
@@ -826,7 +880,7 @@ packages:
     dependencies:
       mongoose: 6.0.11
       '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
-      '@nestjs/core': 7.6.18_9c33563c8577d8506c63ecc8818f31a3
+      '@nestjs/core': 7.6.18_d489a7c925462b21d625b850d6ed8450
       reflect-metadata: 0.1.13
       rxjs: 7.4.0
     dev: false
@@ -842,7 +896,7 @@ packages:
       express: 4.17.1
       multer: 1.4.2
       '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
-      '@nestjs/core': 7.6.18_9c33563c8577d8506c63ecc8818f31a3
+      '@nestjs/core': 7.6.18_d489a7c925462b21d625b850d6ed8450
       tslib: 2.2.0
     dev: false
 
@@ -872,7 +926,7 @@ packages:
       typescript: 4.4.4
     dev: true
 
-  /@nestjs/testing/7.6.18_9cd0f963ae6f35bf288217e4f1c45cb4:
+  /@nestjs/testing/7.6.18_f5a1174e3de4a07338e712ff09df4167:
     resolution: {integrity: sha512-1AVk9vWZlPpx4CmzY6z9z0DHFgGCadfr01QdisGFAN740JwKqZWEqz12cVd+nsXDlYQPFRkp2ICBIS/6k1qZGQ==}
     peerDependencies:
       '@nestjs/common': ^7.0.0
@@ -887,7 +941,8 @@ packages:
     dependencies:
       optional: 0.1.4
       '@nestjs/common': 7.6.18_43f93dd897e68fe834a23ddd32fb54cc
-      '@nestjs/core': 7.6.18_9c33563c8577d8506c63ecc8818f31a3
+      '@nestjs/core': 7.6.18_d489a7c925462b21d625b850d6ed8450
+      '@nestjs/microservices': 7.6.18_fb977ccd11227607f69bc44efbe1878a
       '@nestjs/platform-express': 7.6.18_2664420588e0901c7943acb4693cbaf4
       tslib: 2.2.0
     dev: true
@@ -1441,6 +1496,28 @@ packages:
       uri-js: 4.4.1
     dev: true
 
+  /amqp-connection-manager/3.7.0_amqplib@0.8.0:
+    resolution: {integrity: sha512-pWlrXVQNnSV9Jsewq6wnZjddzlHI/gZroDdmMEYfsqaAUa2V2ENCXbDdoi0r/GVesxueY/Yb8nBO024lfdtdPQ==}
+    engines: {node: '>=10.0.0', npm: '>5.0.0'}
+    peerDependencies:
+      amqplib: '*'
+    dependencies:
+      amqplib: 0.8.0
+      promise-breaker: 5.0.0
+    dev: false
+
+  /amqplib/0.8.0:
+    resolution: {integrity: sha512-icU+a4kkq4Y1PS4NNi+YPDMwdlbFcZ1EZTQT2nigW3fvOb6AOgUQ9+Mk4ue0Zu5cBg/XpDzB40oH10ysrk2dmA==}
+    engines: {node: '>=10'}
+    dependencies:
+      bitsyntax: 0.1.0
+      bluebird: 3.7.2
+      buffer-more-ints: 1.0.0
+      readable-stream: 1.1.14
+      safe-buffer: 5.2.1
+      url-parse: 1.5.3
+    dev: false
+
   /ansi-colors/4.1.1:
     resolution: {integrity: sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==}
     engines: {node: '>=6'}
@@ -1668,6 +1745,15 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /bitsyntax/0.1.0:
+    resolution: {integrity: sha512-ikAdCnrloKmFOugAfxWws89/fPc+nw0OOG1IzIE72uSOg/A3cYptKCjSUhDTuj7fhsJtzkzlv7l3b8PzRHLN0Q==}
+    engines: {node: '>=0.8'}
+    dependencies:
+      buffer-more-ints: 1.0.0
+      debug: 2.6.9
+      safe-buffer: 5.1.2
+    dev: false
+
   /bl/4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
     dependencies:
@@ -1675,6 +1761,10 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.0
     dev: true
+
+  /bluebird/3.7.2:
+    resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
+    dev: false
 
   /body-parser/1.19.0:
     resolution: {integrity: sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw==}
@@ -1759,6 +1849,10 @@ packages:
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+
+  /buffer-more-ints/1.0.0:
+    resolution: {integrity: sha512-EMetuGFz5SLsT0QTnXzINh4Ksr+oo4i+UGTXEshiGCQWnsgSs7ZhJ8fzlwQ+OzEMs0MpDAMr1hxnblp5a4vcHg==}
+    dev: false
 
   /buffer/5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
@@ -3967,6 +4061,10 @@ packages:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
     dev: true
 
+  /json-socket/0.3.0:
+    resolution: {integrity: sha512-jc8ZbUnYIWdxERFWQKVgwSLkGSe+kyzvmYxwNaRgx/c8NNyuHes4UHnPM3LUrAFXUx1BhNJ94n1h/KCRlbvV0g==}
+    dev: false
+
   /json-stable-stringify-without-jsonify/1.0.1:
     resolution: {integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=}
     dev: true
@@ -4786,6 +4884,10 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
+  /promise-breaker/5.0.0:
+    resolution: {integrity: sha512-mgsWQuG4kJ1dtO6e/QlNDLFtMkMzzecsC69aI5hlLEjGHFNpHrvGhFi4LiK5jg2SMQj74/diH+wZliL9LpGsyA==}
+    dev: false
+
   /prompts/2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
     engines: {node: '>= 6'}
@@ -4831,6 +4933,10 @@ packages:
   /qs/6.7.0:
     resolution: {integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==}
     engines: {node: '>=0.6'}
+    dev: false
+
+  /querystringify/2.2.0:
+    resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
     dev: false
 
   /queue-microtask/1.2.3:
@@ -4973,6 +5079,10 @@ packages:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
     dev: true
 
+  /requires-port/1.0.0:
+    resolution: {integrity: sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=}
+    dev: false
+
   /resolve-cwd/3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
     engines: {node: '>=8'}
@@ -5060,7 +5170,6 @@ packages:
 
   /safe-buffer/5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
-    dev: true
 
   /safe-regex/1.1.0:
     resolution: {integrity: sha1-QKNmnzsHfR6UPURinhV91IAjvy4=}
@@ -5929,6 +6038,13 @@ packages:
     resolution: {integrity: sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=}
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
+
+  /url-parse/1.5.3:
+    resolution: {integrity: sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==}
+    dependencies:
+      querystringify: 2.2.0
+      requires-port: 1.0.0
+    dev: false
 
   /use/3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}

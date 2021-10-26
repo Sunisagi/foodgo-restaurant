@@ -5,9 +5,9 @@ export type RestaurantDocument = Restaurant & Document;
 
 @Schema()
 export class Restaurant {
-  @Prop({required: true, index:true, unique: true})
-  ownerId: string;
-
+  @Prop()
+  _id: number;
+  
   @Prop({required: true})
   name: string;
 

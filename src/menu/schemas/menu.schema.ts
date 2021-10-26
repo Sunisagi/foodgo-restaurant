@@ -10,10 +10,10 @@ export class Menu {
   @Prop({required: true})
   price: number;
 
-  @Prop({type: [TagSchema], required: true, _id: false})
+  @Prop({type: [], required: true, _id: false})
   categories: Tag[];
 
-  @Prop({type: [TagSchema], required: true, _id: false})
+  @Prop({type: [], required: true, _id: false})
   allergies: Tag[];
 
   @Prop({required: true, enum: MealTime})

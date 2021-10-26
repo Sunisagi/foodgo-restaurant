@@ -5,9 +5,9 @@ export type MenuListDocument = MenuList & Document;
 
 @Schema()
 export class MenuList {
-  @Prop({required: true, index:true, unique: true})
-  ownerId: string;
-
+  @Prop()
+  _id: number;
+  
   @Prop({ type: [MenuSchema], required: true, _id: false})
   menus: Menu[];
 }
