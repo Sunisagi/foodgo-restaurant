@@ -2,7 +2,7 @@ export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     type : 'mongodb',
-    url : 'mongodb+srv://me:1234@matchingservice.n6acs.mongodb.net/Restaurant?retryWrites=true&w=majority'
+    url : process.env.MONGO_URL
   },
   rmq: {
     host: process.env.RMQ_HOST || 'rabbitmq3',
