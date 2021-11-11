@@ -21,12 +21,12 @@ export class CreateMenuDto {
     @IsNotEmpty()
     // @ValidateNested({each: true})
     // @Type(() =>)
-    categories: [];
+    categories: ObjectId[];
 
     @IsNotEmpty()
     // @ValidateNested({each: true})
     // @Type(() => TagDto)
-    allergies: [];
+    allergies: ObjectId[];
 
     @IsNotEmpty()
     @IsEnum(MealTime)

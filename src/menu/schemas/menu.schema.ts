@@ -1,6 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { MealTime } from '../enums/menus-mealtime.enum';
 import {Tag, TagSchema} from './tag.schema'
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+
+export type MenuDocument = Menu & Document;
 
 @Schema()
 export class Menu {
@@ -10,10 +14,10 @@ export class Menu {
   @Prop({required: true})
   price: number;
 
-  @Prop({type: [], required: true, _id: false})
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Tag.name }] })
   categories: Tag[];
 
-  @Prop({type: [], required: true, _id: false})
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Tag.name }] })
   allergies: Tag[];
 
   @Prop({required: true, enum: MealTime})

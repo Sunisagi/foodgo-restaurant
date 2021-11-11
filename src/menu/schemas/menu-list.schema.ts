@@ -8,7 +8,7 @@ export class MenuList {
   @Prop()
   _id: number;
   
-  @Prop({ type: [MenuSchema], required: true, _id: false})
+  @Prop({ type: [MenuSchema], required: true})
   menus: Menu[];
 }
 
