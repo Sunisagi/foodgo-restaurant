@@ -9,6 +9,9 @@ export type MenuDocument = Menu & Document;
 @Schema()
 export class Menu {
   @Prop({required: true})
+  ownerId: number;
+
+  @Prop({required: true})
   name: string;
 
   @Prop({required: true})

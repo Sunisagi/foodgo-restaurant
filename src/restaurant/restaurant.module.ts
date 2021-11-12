@@ -25,6 +25,19 @@ import { UserSchema } from './schemas/user.schema';
         },
       },
     ]),
+    ClientsModule.register([
+      {
+        name: 'MatchingClient',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://rabbitmq3:5672'],
+          queue: 'matching_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
+    ]),
   ],
   controllers: [RestaurantController],
   exports: [RestaurantService],

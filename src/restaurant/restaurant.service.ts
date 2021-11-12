@@ -1,10 +1,11 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { Restaurant } from './schemas/restaurant.schema';
 import { ClientProxy } from '@nestjs/microservices';
 import { User } from './schemas/user.schema';
+import { ObjectId } from "mongoose";
 
 @Injectable()
 export class RestaurantService {
@@ -12,6 +13,7 @@ export class RestaurantService {
         @InjectModel('restaurants') private readonly restaurantModel: Model<Restaurant>,
         @InjectModel('users') private readonly userModel: Model<User>,
         @Inject('AuthClient') private authClient: ClientProxy,
+        @Inject('MatchingClient') private matchingClient: ClientProxy,
     ) { }
 
     async find(ownerId: number): Promise<Restaurant> {
@@ -28,15 +30,19 @@ export class RestaurantService {
         const existingUser = await this.find(ownerId);      
 
         if (existingUser) {
-            throw new BadRequestException('Id has already');
+            throw new BadRequestException('Id has already registered');
         }
-
         const createdRestaurant = new this.restaurantModel({
             _id: ownerId,
             ...createRestaurantDto
         });
-        this.authClient.emit('UserInformed', { id: ownerId });
-        const restaurant =  await createdRestaurant.save();        
+        this.authClient.emit('UserInformed', { id: ownerId });        
+        const restaurant =  await createdRestaurant.save();   
+        const restaurantPayload = {
+            id: ownerId,
+            ...createRestaurantDto
+        };
+        this.matchingClient.emit('RestaurantCreated', restaurantPayload);     
         return restaurant;
       }
 
@@ -44,4 +50,9 @@ export class RestaurantService {
         const createdUser = new this.userModel({ _id: id });
         return createdUser.save();
     }
+
+    // async updateMenu(ownerId: number, menuId): Promise<any> {
+    //     const restaurant = await this.restaurantModel.update({'_id': ownerId}, {menu: menuId});
+    //     return restaurant
+    // }
 }
