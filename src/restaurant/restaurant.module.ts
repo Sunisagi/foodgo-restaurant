@@ -5,6 +5,7 @@ import { RestaurantService } from './restaurant.service';
 import {RestaurantSchema } from './schemas/restaurant.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserSchema } from './schemas/user.schema';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,8 +25,6 @@ import { UserSchema } from './schemas/user.schema';
           },
         },
       },
-    ]),
-    ClientsModule.register([
       {
         name: 'MatchingClient',
         transport: Transport.RMQ,
@@ -37,6 +36,15 @@ import { UserSchema } from './schemas/user.schema';
           },
         },
       },
+      {
+        name: 'LogClient',
+        transport: Transport.GRPC,
+        options: {
+          url: 'localhost:50051',
+          package: 'log',
+          protoPath: join(__dirname, '/log.proto')
+        },
+      }
     ]),
   ],
   controllers: [RestaurantController],

@@ -1,8 +1,9 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,14 +21,23 @@ async function bootstrap() {
   
   const port = configService.get('port');
 
+  // app.connectMicroservice({
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: [`amqp://${rmqHost}:${rmqPort}`],
+  //     queue: rmqConsumerQueue,
+  //     queueOptions: {
+  //       durable: false,
+  //     },
+  //   },
+  // });
+
   app.connectMicroservice({
-    transport: Transport.RMQ,
+    transport: Transport.GRPC,
     options: {
-      urls: [`amqp://${rmqHost}:${rmqPort}`],
-      queue: rmqConsumerQueue,
-      queueOptions: {
-        durable: false,
-      },
+      url: '0.0.0.0:50052',
+      package: 'log',
+      protoPath: join(__dirname, '/restaurant/log.proto')
     },
   });
 

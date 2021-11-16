@@ -1,23 +1,43 @@
-import { Injectable, Inject, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, Logger, OnModuleInit } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { Restaurant } from './schemas/restaurant.schema';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 import { User } from './schemas/user.schema';
+import { Observable } from 'rxjs';
 import { ObjectId } from "mongoose";
 
+interface LogsService {
+    createLog(body: { id: number, dateTime: number, description: string });
+  }
+
 @Injectable()
-export class RestaurantService {
+export class RestaurantService implements OnModuleInit {
+    private logService;
+
     constructor(
         @InjectModel('restaurants') private readonly restaurantModel: Model<Restaurant>,
         @InjectModel('users') private readonly userModel: Model<User>,
         @Inject('AuthClient') private authClient: ClientProxy,
         @Inject('MatchingClient') private matchingClient: ClientProxy,
+        @Inject('LogClient') private logClient: ClientGrpc,
     ) { }
 
-    async find(ownerId: number): Promise<Restaurant> {
+    onModuleInit() {
+        this.logService = this.logClient.getService('LogsService');
+      }
+
+    async find(ownerId: number): Promise<Restaurant> {        
         const restaurant = await this.restaurantModel.findById(ownerId);
+        const logPayload = {
+            id: ownerId,
+            dateTime: Date.now(),
+            description: 'get restaurant'
+        }
+        // console.log(this.logService.createLog.toString());
+        const a = await this.logService.createLog(logPayload);
+        console.log(a)
         return restaurant;
     }
 
@@ -42,7 +62,14 @@ export class RestaurantService {
             id: ownerId,
             ...createRestaurantDto
         };
-        this.matchingClient.emit('RestaurantCreated', restaurantPayload);     
+        this.matchingClient.emit('RestaurantCreated', restaurantPayload);   
+
+        const logPayload = {
+            id: ownerId,
+            dateTime: Date.now(),
+            description: 'restaurant created'
+        }
+        this.logService.createLog(logPayload) 
         return restaurant;
       }
 

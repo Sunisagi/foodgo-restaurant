@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package log;
+
+service LogsService {
+  rpc CreateLog (LogRequest) returns (LogRequest) {}
+}
+
+message LogRequest {
+  int32 userId = 1;
+  int32 dateTime = 2;
+  string description = 3;
+}
