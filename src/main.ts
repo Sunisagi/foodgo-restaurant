@@ -32,15 +32,6 @@ async function bootstrap() {
   //   },
   // });
 
-  app.connectMicroservice({
-    transport: Transport.GRPC,
-    options: {
-      url: '0.0.0.0:50052',
-      package: 'log',
-      protoPath: join(__dirname, '/restaurant/log.proto')
-    },
-  });
-
   await app.startAllMicroservices();
   await app.listen(port);
 }

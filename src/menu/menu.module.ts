@@ -7,10 +7,12 @@ import { MenuList, MenuListSchema } from './schemas/menu-list.schema';
 import { Menu, MenuSchema } from './schemas/menu.schema';
 import { Tag, TagSchema } from './schemas/tag.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { LoggerModule } from 'src/logger/logger.module';
 
 @Module({
   imports: [
     RestaurantModule,
+    LoggerModule,
     MongooseModule.forFeature([
       { name: MenuList.name , schema: MenuListSchema },
       { name: Menu.name , schema: MenuSchema},

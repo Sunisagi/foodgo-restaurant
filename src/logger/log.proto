@@ -7,7 +7,6 @@ service LogsService {
 }
 
 message LogRequest {
-  int32 userId = 1;
-  int32 dateTime = 2;
-  string description = 3;
+  string dateTime = 1;
+  string log = 2;
 }

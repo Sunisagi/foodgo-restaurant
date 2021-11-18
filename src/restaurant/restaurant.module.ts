@@ -6,9 +6,12 @@ import {RestaurantSchema } from './schemas/restaurant.schema';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserSchema } from './schemas/user.schema';
 import { join } from 'path';
+import { ServerCredentials } from '@grpc/grpc-js';
+import { LoggerModule } from 'src/logger/logger.module';
 
 @Module({
   imports: [
+    LoggerModule,
     MongooseModule.forFeature([
       {name: 'restaurants', schema: RestaurantSchema},
       {name: 'users', schema: UserSchema}
@@ -36,15 +39,6 @@ import { join } from 'path';
           },
         },
       },
-      {
-        name: 'LogClient',
-        transport: Transport.GRPC,
-        options: {
-          url: 'localhost:50051',
-          package: 'log',
-          protoPath: join(__dirname, '/log.proto')
-        },
-      }
     ]),
   ],
   controllers: [RestaurantController],

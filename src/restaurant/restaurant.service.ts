@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, Logger, OnModuleInit, HttpStatus } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
@@ -7,49 +7,35 @@ import { ClientGrpc, ClientProxy } from '@nestjs/microservices';
 import { User } from './schemas/user.schema';
 import { Observable } from 'rxjs';
 import { ObjectId } from "mongoose";
-
-interface LogsService {
-    createLog(body: { id: number, dateTime: number, description: string });
-  }
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
-export class RestaurantService implements OnModuleInit {
-    private logService;
+export class RestaurantService{
 
     constructor(
+        private readonly logger : LoggerService,
         @InjectModel('restaurants') private readonly restaurantModel: Model<Restaurant>,
         @InjectModel('users') private readonly userModel: Model<User>,
         @Inject('AuthClient') private authClient: ClientProxy,
         @Inject('MatchingClient') private matchingClient: ClientProxy,
-        @Inject('LogClient') private logClient: ClientGrpc,
     ) { }
-
-    onModuleInit() {
-        this.logService = this.logClient.getService('LogsService');
-      }
 
     async find(ownerId: number): Promise<Restaurant> {        
         const restaurant = await this.restaurantModel.findById(ownerId);
-        const logPayload = {
-            id: ownerId,
-            dateTime: Date.now(),
-            description: 'get restaurant'
-        }
-        // console.log(this.logService.createLog.toString());
-        const a = await this.logService.createLog(logPayload);
-        console.log(a)
         return restaurant;
     }
 
-    async create(ownerId: number, createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
+    async create(ownerId: number, createRestaurantDto: CreateRestaurantDto, data): Promise<Restaurant> {
         const user = await this.userModel.findById(ownerId);
         if (!user) {
-          throw new BadRequestException('The user does not exist');
+            await this.logger.genLog(data.ip,data.host,data.method,data.url,HttpStatus.BAD_REQUEST);
+            throw new BadRequestException('The user does not exist');
         }
 
         const existingUser = await this.find(ownerId);      
 
         if (existingUser) {
+            await this.logger.genLog(data.ip,data.host,data.method,data.url,HttpStatus.BAD_REQUEST);
             throw new BadRequestException('Id has already registered');
         }
         const createdRestaurant = new this.restaurantModel({
@@ -63,13 +49,6 @@ export class RestaurantService implements OnModuleInit {
             ...createRestaurantDto
         };
         this.matchingClient.emit('RestaurantCreated', restaurantPayload);   
-
-        const logPayload = {
-            id: ownerId,
-            dateTime: Date.now(),
-            description: 'restaurant created'
-        }
-        this.logService.createLog(logPayload) 
         return restaurant;
       }
 

@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RestaurantService } from 'src/restaurant/restaurant.service';
@@ -8,10 +8,12 @@ import { Menu } from './schemas/menu.schema';
 import { Tag } from './schemas/tag.schema';
 import { ObjectId } from "mongoose";
 import { ClientProxy } from '@nestjs/microservices';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class MenuService {
     constructor(
+        private readonly logger : LoggerService,
         private restaurantService: RestaurantService,
         @InjectModel(Menu.name) private menuModel: Model<Menu>,
         @InjectModel(Tag.name) private tagModel: Model<Tag>,
@@ -23,9 +25,10 @@ export class MenuService {
         return menus;
     }
 
-    async create(ownerId: number , createMenuListDto: CreateMenuListDto): Promise<Menu[]> {
+    async create(ownerId: number , createMenuListDto: CreateMenuListDto,logData): Promise<Menu[]> {
         const existedRestaurant = await this.restaurantService.find(ownerId);
         if(!existedRestaurant) {
+            await this.logger.genLog(logData.ip,logData.host,logData.method,logData.url,HttpStatus.BAD_REQUEST);
             throw new BadRequestException('Restaurant is not registered');
         }
         const menus = [];
