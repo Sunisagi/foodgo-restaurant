@@ -25,10 +25,9 @@ export class MenuService {
         return menus;
     }
 
-    async create(ownerId: number , createMenuListDto: CreateMenuListDto,logData): Promise<Menu[]> {
+    async create(ownerId: number , createMenuListDto: CreateMenuListDto): Promise<Menu[]> {
         const existedRestaurant = await this.restaurantService.find(ownerId);
         if(!existedRestaurant) {
-            await this.logger.genLog(logData.ip,logData.host,logData.method,logData.url,HttpStatus.BAD_REQUEST);
             throw new BadRequestException('Restaurant is not registered');
         }
         const menus = [];

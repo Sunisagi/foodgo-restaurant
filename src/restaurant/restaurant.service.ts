@@ -25,17 +25,15 @@ export class RestaurantService{
         return restaurant;
     }
 
-    async create(ownerId: number, createRestaurantDto: CreateRestaurantDto, data): Promise<Restaurant> {
+    async create(ownerId: number, createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
         const user = await this.userModel.findById(ownerId);
         if (!user) {
-            await this.logger.genLog(data.ip,data.host,data.method,data.url,HttpStatus.BAD_REQUEST);
             throw new BadRequestException('The user does not exist');
         }
 
         const existingUser = await this.find(ownerId);      
 
         if (existingUser) {
-            await this.logger.genLog(data.ip,data.host,data.method,data.url,HttpStatus.BAD_REQUEST);
             throw new BadRequestException('Id has already registered');
         }
         const createdRestaurant = new this.restaurantModel({

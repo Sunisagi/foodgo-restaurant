@@ -21,16 +21,16 @@ async function bootstrap() {
   
   const port = configService.get('port');
 
-  // app.connectMicroservice({
-  //   transport: Transport.RMQ,
-  //   options: {
-  //     urls: [`amqp://${rmqHost}:${rmqPort}`],
-  //     queue: rmqConsumerQueue,
-  //     queueOptions: {
-  //       durable: false,
-  //     },
-  //   },
-  // });
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: [`amqp://${rmqHost}:${rmqPort}`],
+      queue: rmqConsumerQueue,
+      queueOptions: {
+        durable: false,
+      },
+    },
+  });
 
   await app.startAllMicroservices();
   await app.listen(port);

@@ -9,46 +9,18 @@ import { LoggerService } from 'src/logger/logger.service';
 export class RestaurantController {
     constructor(
         private readonly restaurantService: RestaurantService,
-        private readonly logger : LoggerService,
         ) { }
 
     @Get(':ownerId/information')
-    async find(@Param('ownerId') ownerId: number, @Req() request, @Res() response): Promise<Restaurant> {
-        const data = {
-            host: request.hostname,
-            url: request.url,
-            ip: request.ip,
-            method: request.method,
-            status: response.statusCode
-        }
+    async find(@Param('ownerId') ownerId: number): Promise<Restaurant> {
         const restaurant = await this.restaurantService.find(ownerId);
-        await this.logger.genLog(data.ip,data.host,data.method,data.url,data.status);
-        if(restaurant) {
-            return response.send(restaurant)
-        }
-        else {
-            throw new InternalServerErrorException('Server Error');
-        }
+        return restaurant;
     }
 
     @Post(':ownerId/information')
-    async Create(@Param('ownerId') ownerId:number, @Req() request, @Res() response, @Body() body:CreateRestaurantDto): Promise<Restaurant> {    
-        const data = {
-            host: request.hostname,
-            url: request.url,
-            ip: request.ip,
-            method: request.method,
-            status: response.statusCode
-        }
-        const restaurant = await this.restaurantService.create(ownerId, body, data);
-        await this.logger.genLog(data.ip,data.host,data.method,data.url,data.status);
-        
-        if(restaurant) {
-            return response.send(restaurant)
-        }
-        else {
-            throw new InternalServerErrorException('Server Error');
-        }      
+    async Create(@Param('ownerId') ownerId:number, @Body() body:CreateRestaurantDto): Promise<Restaurant> {    
+        const restaurant = await this.restaurantService.create(ownerId, body);
+        return restaurant;
     }
 
     @EventPattern('UserCreated')
