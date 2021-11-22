@@ -12,14 +12,19 @@ export class RestaurantController {
         ) { }
 
     @Get(':ownerId/information')
-    async find(@Param('ownerId') ownerId: number): Promise<Restaurant> {
-        const restaurant = await this.restaurantService.find(ownerId);
+    find(@Param('ownerId') ownerId: number): Promise<Restaurant> {
+        const restaurant = this.restaurantService.find(ownerId);
         return restaurant;
     }
 
+    @Get(':ownerId/all-menus')
+    findWithMenu(@Param('ownerId') ownerId: number): Promise<Restaurant> {
+        return this.restaurantService.findWithMenu(ownerId);
+    }
+
     @Post(':ownerId/information')
-    async Create(@Param('ownerId') ownerId:number, @Body() body:CreateRestaurantDto): Promise<Restaurant> {    
-        const restaurant = await this.restaurantService.create(ownerId, body);
+    Create(@Param('ownerId') ownerId:number, @Body() body:CreateRestaurantDto): Promise<Restaurant> {    
+        const restaurant = this.restaurantService.create(ownerId, body);
         return restaurant;
     }
 

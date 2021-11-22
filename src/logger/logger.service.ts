@@ -26,10 +26,4 @@ export class LoggerService extends ConsoleLogger implements OnModuleInit {
     }).subscribe();
     super.log(message);
   }
-
-  genLog(ip: string, host: string, method: string, endpoint: string, status: number) {
-    const date = Date();
-    const message =  `${ip} ${date} ${host} ${method} ${endpoint} ${status}`
-        this.log(message, date);
-  }
 }

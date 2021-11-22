@@ -44,7 +44,9 @@ export class MenuService {
             .then((menu) => menu.populate('categories'));
             menuIds.push(save_menu['_id']);
             menus.push(save_menu);
-        }       
+        }
+        
+        this.restaurantService.updateMenu(ownerId, menuIds);
 
         // this.restaurantService.updateMenu(ownerId,menuIds);        
         this.matchingClient.emit('MenuCreated', menuPayload);

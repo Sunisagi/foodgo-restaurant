@@ -9,6 +9,7 @@ export class LoggerMiddleware implements NestMiddleware {
         ) { }
     use(req: Request, res: Response, next: NextFunction) {
         const data = {
+            date: Date(),
             host: req.hostname,
             url: req.baseUrl,
             ip: req.ip,
@@ -17,7 +18,8 @@ export class LoggerMiddleware implements NestMiddleware {
         };
         res.on('finish', () => {
             data['status'] = res.statusCode;
-            this.logger.genLog(data.ip,data.host,data.method,data.url,data.status);
+            const message =  `${data.ip} ${data.date} ${data.host} ${data.method} ${data.url} ${data.status}`
+            this.logger.log(message,data.date);
         })        
         next();
     }

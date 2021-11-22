@@ -8,6 +8,7 @@ import { User } from './schemas/user.schema';
 import { Observable } from 'rxjs';
 import { ObjectId } from "mongoose";
 import { LoggerService } from 'src/logger/logger.service';
+import { Menu } from 'src/menu/schemas/menu.schema';
 
 @Injectable()
 export class RestaurantService{
@@ -20,9 +21,26 @@ export class RestaurantService{
         @Inject('MatchingClient') private matchingClient: ClientProxy,
     ) { }
 
-    async find(ownerId: number): Promise<Restaurant> {        
-        const restaurant = await this.restaurantModel.findById(ownerId);
+    async findWithMenu(ownerId: number): Promise<Restaurant> {        
+        const restaurant = await this.restaurantModel.findById(ownerId).populate(
+            {
+                path: 'menus',
+                populate: [{
+                    path: 'categories',
+                    model: 'Tag',
+                },
+                {
+                    path: 'allergies',
+                    model: 'Tag',
+                }],
+            }
+        )
         return restaurant;
+    }
+
+    async find(ownerId: number): Promise<Restaurant> {
+        const restaurant = await this.restaurantModel.findById(ownerId).select('-menus');
+        return restaurant
     }
 
     async create(ownerId: number, createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
@@ -55,8 +73,10 @@ export class RestaurantService{
         return createdUser.save();
     }
 
-    // async updateMenu(ownerId: number, menuId): Promise<any> {
-    //     const restaurant = await this.restaurantModel.update({'_id': ownerId}, {menu: menuId});
-    //     return restaurant
-    // }
+    async updateMenu(ownerId: number, menuId: any[]): Promise<any> {
+        let IdList = (await this.restaurantModel.findById(ownerId)).menus;
+        const newMenuId = IdList.concat(menuId);
+        const restaurant = await this.restaurantModel.findOneAndUpdate({'_id': ownerId}, {menus: newMenuId});
+        return restaurant
+    }
 }

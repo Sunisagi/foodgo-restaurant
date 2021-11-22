@@ -26,8 +26,8 @@ export class Restaurant {
   @Prop({required: true})
   long: string;
 
-  // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Menu.name }] })
-  // menu: Menu[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Menu.name }] })
+  menus: Menu[];
 }
 
 export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
