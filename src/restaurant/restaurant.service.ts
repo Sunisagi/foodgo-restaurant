@@ -14,15 +14,14 @@ import { Menu } from 'src/menu/schemas/menu.schema';
 export class RestaurantService{
 
     constructor(
-        private readonly logger : LoggerService,
         @InjectModel('restaurants') private readonly restaurantModel: Model<Restaurant>,
         @InjectModel('users') private readonly userModel: Model<User>,
         @Inject('AuthClient') private authClient: ClientProxy,
         @Inject('MatchingClient') private matchingClient: ClientProxy,
     ) { }
 
-    async findWithMenu(ownerId: number): Promise<Restaurant> {        
-        const restaurant = await this.restaurantModel.findById(ownerId).populate(
+    async findAll(): Promise<Restaurant[]> {        
+        const restaurant = await this.restaurantModel.find().populate(
             {
                 path: 'menus',
                 populate: [{

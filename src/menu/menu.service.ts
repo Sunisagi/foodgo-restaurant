@@ -13,7 +13,6 @@ import { LoggerService } from 'src/logger/logger.service';
 @Injectable()
 export class MenuService {
     constructor(
-        private readonly logger : LoggerService,
         private restaurantService: RestaurantService,
         @InjectModel(Menu.name) private menuModel: Model<Menu>,
         @InjectModel(Tag.name) private tagModel: Model<Tag>,

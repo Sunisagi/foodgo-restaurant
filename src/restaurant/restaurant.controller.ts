@@ -11,16 +11,16 @@ export class RestaurantController {
         private readonly restaurantService: RestaurantService,
         ) { }
 
+    @Get('/menus')
+    findAll(): Promise<Restaurant[]> {
+        return this.restaurantService.findAll();
+    } 
+        
     @Get(':ownerId/information')
     find(@Param('ownerId') ownerId: number): Promise<Restaurant> {
         const restaurant = this.restaurantService.find(ownerId);
         return restaurant;
-    }
-
-    @Get(':ownerId/all-menus')
-    findWithMenu(@Param('ownerId') ownerId: number): Promise<Restaurant> {
-        return this.restaurantService.findWithMenu(ownerId);
-    }
+    }    
 
     @Post(':ownerId/information')
     Create(@Param('ownerId') ownerId:number, @Body() body:CreateRestaurantDto): Promise<Restaurant> {    
