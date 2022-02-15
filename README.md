@@ -1,7 +1,8 @@
 ## Foodgo
 Food delivery web application. Everyday, 3 meals will be delivered from nearby local restaurants to their homes. Menus are based on their preferences. 
 Restaurants will receive orders daily. They will know what menu to cook and what time for those menus to be delivered, thus helping with stock management. 
-
+### Restaurant service
+Handle create restaurant and menus, also send created information to other service using RabbitMQ.
 ________________________________________________________________________________________________________________________________________________________________
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
